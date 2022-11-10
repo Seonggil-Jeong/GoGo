@@ -1,3 +1,27 @@
 spring:
   profiles:
     active: dev
+  application:
+    name: apigateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb:USER-SERVICE
+          predicates:
+            - Path=/user/**
+        - id: diet-service
+          uri: lb:DIET-SERVICE
+          predicates:
+            - Path=/diet/**
+        - id: trainerService
+          uri: lb:TRAINER-SERVICE
+          predicates:
+            - Path=/diet/**
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
