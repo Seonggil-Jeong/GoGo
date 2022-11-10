@@ -1,3 +1,19 @@
 spring:
   profiles:
     active: dev
+  datasource:
+    hikari:
+      max-lifetime: 40000
+      read-only: false
+      connection-timeout: 9000
+      maximum-pool-size: 14
+      connection-init-sql: SELECT 1
+
+    dbcp2:
+      test-on-borrow: true
+      validation-query: SELECT 1
+      test-while-idle: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
