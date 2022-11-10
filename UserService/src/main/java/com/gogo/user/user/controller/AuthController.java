@@ -40,7 +40,6 @@ public class AuthController {
     public ResponseEntity<Void> loginUser(
             @RequestBody @Validated final LoginUserRequest request, HttpServletResponse response) throws Exception {
         response.setHeader(AUTHORIZATION_TOKEN_KEY, userService.userLogin(request));
-
         return ResponseEntity.ok().build();
     }
 

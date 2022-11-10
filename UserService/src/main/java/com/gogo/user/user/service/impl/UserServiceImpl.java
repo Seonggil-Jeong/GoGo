@@ -131,6 +131,7 @@ public class UserServiceImpl implements VarifyUserService, AuthService, UserServ
                 Date.from(LocalDateTime.now().plusMinutes(30).atZone(ZoneId.systemDefault()).toInstant())
         );
 
+        log.info("tokenInfo : " + accessToken.toString());
         return accessToken.getToken();
     }
 

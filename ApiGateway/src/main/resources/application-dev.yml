@@ -1,2 +1,57 @@
 server:
-  port: 8080
+  port: 10001
+
+jwt:
+  secret: "GogoServiceDevSecretKeyGogoServiceDevSecretKeyGogoServiceDevSecretKey"
+  valid:
+    time: 3000
+  name: "X-TOKEN"
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: user-service-auth
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/auth/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        - id: diet-service
+          uri: lb://DIET-SERVICE
+          predicates:
+            - Path=/diet-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/diet-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        - id: trainer-service
+          uri: lb://TRAINER-SERVICE
+          predicates:
+            - Path=/trainer-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/trainer-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    server-url:
+      defaultZone: http://localhost:8761/eureka
+
+
