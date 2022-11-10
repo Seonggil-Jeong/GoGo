@@ -1,9 +1,9 @@
-package com.gogo.user.constants;
+package com.gogo.diet.constants;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserConstants {
+public class AuthConstants {
     public static final String AUTHORIZATION_TOKEN_KEY = "X-TOKEN";
 }

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static com.gogo.user.constants.UserConstants.AUTHORIZATION_TOKEN_KEY;
+import static com.gogo.user.constants.AuthConstants.AUTHORIZATION_TOKEN_KEY;
 
 @Slf4j
 @RestController
