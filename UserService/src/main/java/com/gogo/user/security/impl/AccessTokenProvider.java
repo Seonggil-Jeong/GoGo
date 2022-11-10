@@ -66,9 +66,4 @@ public class AccessTokenProvider implements AuthTokenProvider<AccessToken> {
         return jwtAuthToken.getData().getSubject();
     }
 
-    public String getType(final String token) {
-        final AccessToken jwtAuthToken = this.convertAuthToken(token);
-
-        return String.valueOf(jwtAuthToken.getData().get("type"));
-    }
 }
