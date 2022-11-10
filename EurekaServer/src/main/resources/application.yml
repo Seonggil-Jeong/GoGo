@@ -1,3 +1,10 @@
 spring:
   profiles:
     active: dev
+  application:
+    name: eurekaService
+  eureka:
+    client:
+      register-with-eureka: false
+      fetch-registry: false
+
