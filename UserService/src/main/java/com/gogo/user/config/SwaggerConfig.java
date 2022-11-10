@@ -9,6 +9,8 @@ import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import static com.gogo.user.constants.UserConstants.AUTHORIZATION_TOKEN_KEY;
+
 @Configuration
 public class SwaggerConfig {
 

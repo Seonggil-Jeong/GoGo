@@ -2,8 +2,6 @@ server:
   port: 8080
 
 spring:
-  application:
-    name: USER-SERVICE
 
   h2:
     console:
@@ -47,6 +45,10 @@ eureka:
 logging:
   level:
     org.springframework: info
+
+# Kafka
+kafka:
+  ip: "127.0.0.1:9092"
 
 jwt:
   secret: "GogoServiceDevSecretKeyGogoServiceDevSecretKeyGogoServiceDevSecretKey"
