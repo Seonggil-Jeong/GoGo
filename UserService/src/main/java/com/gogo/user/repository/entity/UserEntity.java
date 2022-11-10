@@ -5,7 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-
+@Getter
 @Builder
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,6 +15,10 @@ public class UserEntity {
     @Id
     @Column(name = "USER_ID")
     private String userId;
+
+    @NonNull
+    @Column(name = "USER_PASSWORD", nullable = false)
+    private String userPassword;
 
     @NonNull
     @Column(name = "USER_NAME", nullable = false)
@@ -33,7 +37,7 @@ public class UserEntity {
 
     @NonNull
     @Column(name = "USER_STATE", nullable = false, length = 2)
-    private String userState; // 1 or 0
+    private Integer userState; // 1 or 0
 
     @OneToMany(mappedBy = "user")
     List<DietEntity> diets;

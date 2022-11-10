@@ -9,5 +9,5 @@ public enum RoleType {
     USER("ROLE_USER"),
     ;
 
-    private final String role;
+    private final String value;
 }
