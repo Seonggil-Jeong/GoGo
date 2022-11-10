@@ -19,19 +19,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group("UserService API")
                 .pathsToMatch("/**")
-                .addOpenApiCustomiser(buildSecurityOpenApi()) // JWT Setting Config
                 .build();
-    }
-
-    public OpenApiCustomiser buildSecurityOpenApi() {
-        return OpenApi -> OpenApi.addSecurityItem(new SecurityRequirement().addList("TOKEN"))
-                .getComponents()
-                .addSecuritySchemes("TOKEN", new SecurityScheme()
-                        .name(AUTHORIZATION_TOKEN_KEY)
-                        .type(SecurityScheme.Type.HTTP)
-                        .in(SecurityScheme.In.HEADER)
-                        .bearerFormat("JWT")
-                        .scheme("bearer"));
     }
 
     @Bean

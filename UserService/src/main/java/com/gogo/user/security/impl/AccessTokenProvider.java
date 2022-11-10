@@ -60,7 +60,7 @@ public class AccessTokenProvider implements AuthTokenProvider<AccessToken> {
         }
     }
 
-    public String getAccount(final String token) {
+    public String getUserId(final String token) {
         final AccessToken jwtAuthToken = this.convertAuthToken(token);
 
         return jwtAuthToken.getData().getSubject();

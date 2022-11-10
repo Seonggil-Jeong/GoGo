@@ -1,6 +1,5 @@
-package com.gogo.user.service.impl;
+package com.gogo.user.user.service.impl;
 
-import com.ctc.wstx.shaded.msv_core.datatype.xsd.TokenType;
 import com.gogo.user.enums.RoleType;
 import com.gogo.user.exceptions.UserException;
 import com.gogo.user.exceptions.result.UserExceptionResult;
@@ -9,10 +8,13 @@ import com.gogo.user.repository.entity.UserEntity;
 import com.gogo.user.security.impl.AccessTokenProvider;
 import com.gogo.user.security.token.AccessToken;
 import com.gogo.user.security.token.PasswordAuthenticationToken;
-import com.gogo.user.service.AuthService;
-import com.gogo.user.service.VarifyUserService;
-import com.gogo.user.vo.LoginUserRequest;
-import com.gogo.user.vo.RegisterUserRequest;
+import com.gogo.user.user.service.AuthService;
+import com.gogo.user.user.service.UserService;
+import com.gogo.user.user.service.VarifyUserService;
+import com.gogo.user.user.vo.LoginUserRequest;
+import com.gogo.user.user.vo.RegisterUserRequest;
+import com.gogo.user.user.vo.UpdateUserRequest;
+import com.gogo.user.user.vo.UserInfoResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -31,12 +34,63 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements VarifyUserService, AuthService {
+public class UserServiceImpl implements VarifyUserService, AuthService, UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AccessTokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * for UserService ---------------------------------------------------------------------------
+     */
+    @Override
+    public UserInfoResponse findUserInfo(final String userId) throws Exception {
+        final UserEntity user = userRepository.findById(userId).orElseThrow(()
+                -> new UserException(UserExceptionResult.USER_NOT_FOUND));
+
+        return UserInfoResponse.builder()
+                .userId(user.getUserId())
+                .userNickname(user.getUserNickname())
+                .userName(user.getUserName())
+                .trainerId(user.getTrainerId()).build();
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public UserInfoResponse updateUserInfo(String userId, UpdateUserRequest request) throws Exception {
+        final UserEntity user = userRepository.findById(userId).orElseThrow(()
+                -> new UserException(UserExceptionResult.USER_NOT_FOUND));
+
+        if (!canUpdateUserNickname(userId, request.getUserNickname())) {
+            throw new UserException(UserExceptionResult.DUPLICATED_USER_NICKNAME);
+        }
+
+        final UserEntity result = userRepository.save(UserEntity.builder()
+                .userId(user.getUserId())
+                .userPassword(user.getUserPassword())
+                .role(user.getRole())
+                .userState(user.getUserState())
+                .userNickname(request.getUserNickname())
+                .userName(request.getUserName())
+                .trainerId(request.getTrainerId()).build());
+
+        return UserInfoResponse.builder()
+                .userId(result.getUserId())
+                .trainerId(result.getTrainerId())
+                .userName(result.getUserName())
+                .userNickname(result.getUserNickname()).build();
+    }
+
+    private boolean canUpdateUserNickname(final String userId, final String userNickname) throws Exception {
+        final Optional<UserEntity> result = userRepository.findByUserNickname(userNickname);
+
+        if (result.isEmpty()) {
+            return true;
+        }
+
+        return result.get().getUserId().equals(userId);
+
+    }
 
     /**
      * for AuthService ---------------------------------------------------------------------------
@@ -82,6 +136,7 @@ public class UserServiceImpl implements VarifyUserService, AuthService {
 
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public void userRegister(RegisterUserRequest request) throws Exception {
 
         userRepository.save(UserEntity.builder()

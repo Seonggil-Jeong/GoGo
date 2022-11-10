@@ -1,4 +1,4 @@
-package com.gogo.user.vo;
+package com.gogo.user.user.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

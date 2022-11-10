@@ -1,4 +1,4 @@
-package com.gogo.user.service;
+package com.gogo.user.user.service;
 
 public interface VarifyUserService {
 

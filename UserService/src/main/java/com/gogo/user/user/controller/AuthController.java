@@ -1,8 +1,8 @@
-package com.gogo.user.controller;
+package com.gogo.user.user.controller;
 
-import com.gogo.user.service.AuthService;
-import com.gogo.user.vo.LoginUserRequest;
-import com.gogo.user.vo.RegisterUserRequest;
+import com.gogo.user.user.service.AuthService;
+import com.gogo.user.user.vo.LoginUserRequest;
+import com.gogo.user.user.vo.RegisterUserRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
