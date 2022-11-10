@@ -34,6 +34,13 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.12")
+
+    // Feign Client
+    implementation ("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // for testCode
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.7'

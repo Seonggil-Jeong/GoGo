@@ -1,9 +1,8 @@
-package com.gogo.user.security.filter;
+package com.gogo.diet.security.filter;
 
-import com.gogo.user.exceptions.UserException;
-import com.gogo.user.exceptions.result.UserExceptionResult;
-import com.gogo.user.security.impl.AccessTokenProvider;
-import com.gogo.user.security.token.AccessToken;
+import com.gogo.diet.security.provider.AccessTokenProvider;
+import com.gogo.diet.security.token.AccessToken;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
-import static com.gogo.user.constants.AuthConstants.AUTHORIZATION_TOKEN_KEY;
+import static com.gogo.diet.constants.AuthConstants.AUTHORIZATION_TOKEN_KEY;
 
 
 @Component
@@ -38,7 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
 
             if (session.getAttribute(token.get()) != null) {
-                throw new UserException(UserExceptionResult.EXPIRED_JWT_TOKEN);
+                throw new JwtException("Token Error");
             }
 
             AccessToken accessToken = tokenProvider.convertAuthToken(token.get());

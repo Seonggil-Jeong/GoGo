@@ -2,22 +2,33 @@ package com.gogo.user.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.GroupedOpenApi;
-import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import static com.gogo.user.constants.UserConstants.AUTHORIZATION_TOKEN_KEY;
 
 @Configuration
 public class SwaggerConfig {
 
     @Bean
-    public GroupedOpenApi publicApi() {
+    public GroupedOpenApi userServiceAPI() {
+        return GroupedOpenApi.builder()
+                .group("UserService API - V1")
+                .pathsToMatch("/api/v1/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi authAPI() {
         return GroupedOpenApi.builder()
                 .group("UserService API")
+                .pathsToMatch("/auth/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi allAPI() {
+        return GroupedOpenApi.builder()
+                .group("All UserService API")
                 .pathsToMatch("/**")
                 .build();
     }
