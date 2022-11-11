@@ -1,7 +1,6 @@
-package com.gogo.user.config;
+package com.gogo.trainer.app.config;
 
-import com.gogo.user.enums.RoleType;
-import com.gogo.user.app.security.filter.JwtFilter;
+import com.gogo.trainer.enums.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtFilter jwtFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -40,10 +38,10 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .headers().frameOptions().disable().and()
                 .authorizeRequests()
+                .antMatchers("/client/**").hasIpAddress("127.0.0.1")
                 .antMatchers("/swagger-ui/**", "/api-docs/**", "/h2/**").permitAll() // Swagger
                 .antMatchers("/auth/**").permitAll() // login, register
-                .antMatchers("/**").hasAuthority(RoleType.USER.getValue())
-                .anyRequest().authenticated().and()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
+                .antMatchers("/**").hasAuthority(RoleType.TRAINER.getValue())
+                .anyRequest().authenticated().and().build();
     }
 }
