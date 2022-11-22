@@ -181,7 +181,6 @@ public class UserServiceImpl implements VarifyUserService, AuthService, UserServ
         } else {
             return userId;
         }
-
     }
 
     /**

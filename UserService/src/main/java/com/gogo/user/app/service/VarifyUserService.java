@@ -7,4 +7,5 @@ public interface VarifyUserService {
     String getValidateTrainerId(final String trainerId) throws Exception;
 
     String getValidateUserNickname(final String userNickname) throws Exception;
+
 }
